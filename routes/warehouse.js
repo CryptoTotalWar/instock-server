@@ -4,9 +4,7 @@ const warehouseControler = require('../controllers/warehouse-controller');
 const router = express.Router();
 
 // GET list of all warehouses
-router.get("/", (req, res) => {
-  res.status(200).json({});
-});
+router.get('/', warehouseControler.getAllWarehouses);
 
 // GET single warehouse
 router.get('/:id', warehouseControler.findWarehouse);
