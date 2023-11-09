@@ -74,7 +74,17 @@ const findWarehouse = async (req, res) => {
     }
 }
 
+const getAllWarehouses = async (req, res) => {
+  try {
+    const warehouses = await knex('warehouses').select('*');
+    res.status(200).json(warehouses);
+  } catch (error) {
+    res.status(500).json({ message: `Error retrieving warehouses: ${error.message}` });
+  }
+};
+
 module.exports = {
     findWarehouse,
     editWarehouse,
+    getAllWarehouses,
 };
