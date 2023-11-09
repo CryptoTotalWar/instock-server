@@ -1,31 +1,21 @@
+// routes/inventory.js
 const express = require("express");
-
 const router = express.Router();
+const inventoryController = require("../controllers/inventory-controller");
 
 // GET list of all inventory
-router.get("/", (req, res) => {
-  res.status(200).json({});
-});
+router.get("/", inventoryController.getAllInventoryItems);
 
 // GET single inventory item
-router.get("/", (req, res) => {
-  // NOTE: there is an extra level of detail here that has the item description
-  res.status(200).json({});
-});
+router.get("/:id", inventoryController.getSingleInventoryItem);
 
 // POST to add new inventory item
-router.post("/", (req, res) => {
-  res.status(200).json({});
-});
+router.post("/", inventoryController.addInventoryItem);
 
 // PUT to edit a single inventory item
-router.put("/", (req, res) => {
-  res.status(200).json({});
-});
+router.put("/:id", inventoryController.updateInventoryItem);
 
 // DELETE inventory item with id
-router.delete("/:id", (req, res) => {
-  res.status(200).json({});
-});
+router.delete("/:id", inventoryController.deleteInventoryItem);
 
 module.exports = router;
