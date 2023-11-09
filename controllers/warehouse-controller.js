@@ -1,6 +1,5 @@
 const knex = require('knex')(require('../knexfile'))
 
-<<<<<<< HEAD
 const editWarehouse = async () => {
     const { id, warehouse_name, address, city, country, contact_name, contact_position, contact_phone, contact_email} 
     = req.body;
@@ -15,8 +14,6 @@ const editWarehouse = async () => {
 
     }
 }
-=======
-
 const findWarehouse = async (req, res) => {
     try {
         const warehouseFound = await knex('warehouses')
@@ -41,4 +38,3 @@ const findWarehouse = async (req, res) => {
 module.exports = {
     findWarehouse,
 };
->>>>>>> develop
