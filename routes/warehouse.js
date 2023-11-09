@@ -8,7 +8,7 @@ router.get("/", (req, res) => {
 });
 
 // GET single warehouse
-router.get('/:id', warehouseControler.findWarehouse)
+router.get('/:id', warehouseControler.findWarehouse);
 
 
 // POST to add new warehouse
