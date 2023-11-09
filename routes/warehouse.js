@@ -1,5 +1,6 @@
 const express = require("express");
 const warehouseControler = require('../controllers/warehouse-controller');
+
 const router = express.Router();
 
 // GET list of all warehouses
@@ -17,9 +18,7 @@ router.post("/:id", (req, res) => {
 });
 
 // PUT to edit a single warehouse
-router.put("/:id", (req, res) => {
-  res.status(200).json({});
-});
+router.put("/:id", warehouseControler.editWarehouse)
 
 // DELETE warehouse with id
 router.delete("/:id", (req, res) => {
