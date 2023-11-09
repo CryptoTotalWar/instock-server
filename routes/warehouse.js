@@ -1,6 +1,7 @@
 const express = require("express");
-
+const inventoryController = require("../controllers/inventory-controller");
 const router = express.Router();
+const knex = require('knex')(require('../knexfile'))
 
 // GET list of all warehouses
 router.get("/", (req, res) => {
@@ -11,6 +12,21 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   // NOTE: there is an extra level of detail here that has contact role i.e. "warehouse manager"
   res.status(200).json({});
+});
+
+// GET inventory for a specific warehouse
+router.get("/:id/inventory", async (req, res) => {
+  try {
+    const warehouseId = req.params.id;
+    const inventory = await knex('inventories')
+      .join('warehouses', 'inventories.warehouse_id', 'warehouses.id')
+      .where({'warehouses.id': warehouseId})
+      .select('inventories.id', 'item_name', 'description', 'category', 'status', 'quantity');
+    res.json(inventory);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
 });
 
 // POST to add new warehouse

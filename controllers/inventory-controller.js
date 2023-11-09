@@ -45,8 +45,26 @@ const addInventoryItem = async (req, res) => {
 
 // Skeleton for getting all inventory items
 const getAllInventoryItems = async (req, res) => {
-  // Placeholder for logic to get all inventory items
-  // To be implemented by teammate
+    try {
+      const inventoryItems = await knex('inventories').select('*');
+      res.json(inventoryItems);
+    } catch (error) {
+      res.status(500).json({ message: `Error retrieving inventory items: ${error.message}` });
+    }
+};
+
+const getInventoryByWarehouse = async (req, res) => {
+  try {
+    const warehouseId = req.params.id;
+    const inventory = await knex('inventories')
+      .join('warehouses', 'warehouses.id', 'inventories.warehouse_id')
+      .where('warehouses.id', warehouseId)
+      .select('inventories.*', 'warehouses.name as warehouse');
+    res.json(inventory);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
 };
 
 // Skeleton for getting a single inventory item
@@ -63,14 +81,24 @@ const updateInventoryItem = async (req, res) => {
 
 // Skeleton for deleting an inventory item
 const deleteInventoryItem = async (req, res) => {
-  // Placeholder for logic to delete a single inventory item by id
-  // To be implemented by teammate
+    const itemId = req.params.id;
+    try {
+      const numberOfDeletedRows = await knex('inventories').where('id', itemId).del();
+      if (numberOfDeletedRows) {
+        res.status(204).send(); // No content to send back
+      } else {
+        res.status(404).json({ message: "Item not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: `Error deleting inventory item: ${error.message}` });
+    }
 };
 
 module.exports = {
   addInventoryItem,
   getAllInventoryItems,
   getSingleInventoryItem,
+  getInventoryByWarehouse,
   updateInventoryItem,
   deleteInventoryItem,
 };
