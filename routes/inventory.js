@@ -8,18 +8,18 @@ router.get("/", (req, res) => {
 });
 
 // GET single inventory item
-router.get("/", (req, res) => {
+router.get("/:id", (req, res) => {
   // NOTE: there is an extra level of detail here that has the item description
   res.status(200).json({});
 });
 
 // POST to add new inventory item
-router.post("/", (req, res) => {
+router.post("/:id", (req, res) => {
   res.status(200).json({});
 });
 
 // PUT to edit a single inventory item
-router.put("/", (req, res) => {
+router.put("/:id", (req, res) => {
   res.status(200).json({});
 });
 
