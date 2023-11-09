@@ -1,5 +1,5 @@
 const express = require("express");
-
+const warehouseControler = require('../controllers/warehouse-controller');
 const router = express.Router();
 
 // GET list of all warehouses
@@ -8,10 +8,8 @@ router.get("/", (req, res) => {
 });
 
 // GET single warehouse
-router.get("/:id", (req, res) => {
-  // NOTE: there is an extra level of detail here that has contact role i.e. "warehouse manager"
-  res.status(200).json({});
-});
+router.get('/:id', warehouseControler.findWarehouse)
+
 
 // POST to add new warehouse
 router.post("/:id", (req, res) => {
