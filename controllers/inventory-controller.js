@@ -71,12 +71,80 @@ const getInventoryByWarehouse = async (req, res) => {
 const getSingleInventoryItem = async (req, res) => {
   // Placeholder for logic to get a single inventory item by id
   // To be implemented by teammate
+  try {
+    const itemFound = await knex("inventories")
+      .where({ id: req.params.id });
+
+    if (itemFound.length === 0) {
+      return res.status(404).json({
+        message: `Item with ID ${req.params.id} not found`
+      });
+    }
+    const itemData = itemFound[0];
+    res.json(itemData);
+  } catch (error) {
+    res.status(500).json({
+      message: `Unable to retrieve item data for item with ID ${req.params.id}`,
+    });
+  }
 };
+
 
 // Skeleton for updating an inventory item
 const updateInventoryItem = async (req, res) => {
-  // Placeholder for logic to update a single inventory item by id
-  // To be implemented by teammate
+  const { id } = req.params;
+  const { warehouse_id, item_name, description, category, status, quantity } =
+    req.body;
+
+  // Validate all fields are provided
+  if (
+    !warehouse_id ||
+    !item_name ||
+    !description ||
+    !category ||
+    !status ||
+    isNaN(quantity)
+  ) {
+    return res
+      .status(400)
+      .json({
+        message: "All fields are required and quantity must be a number",
+      });
+  }
+
+  // Check if the inventory item exists
+  const item = await knex("inventories").where({ id }).first();
+  if (!item) {
+    return res.status(404).json({ message: "Inventory item not found" });
+  }
+
+  // Check if the warehouse_id exists
+  const warehouse = await knex("warehouses")
+    .where({ id: warehouse_id })
+    .first();
+  if (!warehouse) {
+    return res.status(400).json({ message: "Warehouse ID does not exist" });
+  }
+
+  // Proceed to update
+  try {
+    await knex("inventories")
+      .where({ id })
+      .update({
+        warehouse_id,
+        item_name,
+        description,
+        category,
+        status,
+        quantity,
+      });
+    const updatedItem = await knex("inventories").where({ id }).first();
+    res.status(200).json(updatedItem);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: `Error updating inventory: ${error.message}` });
+  }
 };
 
 // Skeleton for deleting an inventory item

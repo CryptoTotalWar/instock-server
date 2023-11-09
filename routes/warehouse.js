@@ -1,5 +1,6 @@
 const express = require("express");
 const inventoryController = require("../controllers/inventory-controller");
+const warehouseControler = require('../controllers/warehouse-controller');
 const router = express.Router();
 const knex = require('knex')(require('../knexfile'))
 
@@ -9,10 +10,8 @@ router.get("/", (req, res) => {
 });
 
 // GET single warehouse
-router.get("/:id", (req, res) => {
-  // NOTE: there is an extra level of detail here that has contact role i.e. "warehouse manager"
-  res.status(200).json({});
-});
+router.get('/:id', warehouseControler.findWarehouse)
+
 
 // GET inventory for a specific warehouse
 router.get("/:id/inventory", async (req, res) => {
