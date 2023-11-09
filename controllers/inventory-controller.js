@@ -45,8 +45,14 @@ const addInventoryItem = async (req, res) => {
 
 // Skeleton for getting all inventory items
 const getAllInventoryItems = async (req, res) => {
-  // Placeholder for logic to get all inventory items
-  // To be implemented by teammate
+  try {
+    const inventoryItems = await knex('inventories')
+      .join('warehouses', 'inventories.warehouse_id', 'warehouses.id')
+      .select('inventories.*', 'warehouses.warehouse_name');
+    res.status(200).json(inventoryItems);
+  } catch (error) {
+    res.status(500).json({ message: `Error retrieving inventory items: ${error.message}` });
+  }
 };
 
 // Skeleton for getting a single inventory item
