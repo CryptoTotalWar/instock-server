@@ -28,7 +28,6 @@ const editWarehouse = async (req, res) => {
     }
   
     try {
-      // Update the warehouse data in the database
       const updatedRows = await knex('warehouses')
         .where({ id: id })
         .update({
@@ -43,7 +42,6 @@ const editWarehouse = async (req, res) => {
         });
   
       if (updatedRows > 0) {
-        // Fetch and send the updated warehouse data
         const updatedWarehouse = await knex('warehouses').where({ id: id }).first();
         res.status(200).json(updatedWarehouse);
       } else {
