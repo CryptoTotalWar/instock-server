@@ -1,3 +1,4 @@
+// warehouse.js
 const express = require("express");
 const warehouseControler = require('../controllers/warehouse-controller');
 
@@ -19,8 +20,6 @@ router.post("/:id", (req, res) => {
 router.put("/:id", warehouseControler.editWarehouse)
 
 // DELETE warehouse with id
-router.delete("/:id", (req, res) => {
-  res.status(200).json({});
-});
+router.delete("/:id", warehouseControler.deleteWarehouse);
 
 module.exports = router;
