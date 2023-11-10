@@ -1,3 +1,4 @@
+// // create_inventories_table migration
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }

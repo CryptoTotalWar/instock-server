@@ -1,3 +1,4 @@
+// controllers/warehouse-controller.js
 const knex = require('knex')(require('../knexfile'))
 
 const editWarehouse = async (req, res) => {
@@ -74,6 +75,27 @@ const findWarehouse = async (req, res) => {
     }
 }
 
+const deleteWarehouse = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const warehouse = await knex('warehouses').where({ id }).first();
+    if (!warehouse) {
+      return res.status(404).send(); 
+    }
+
+    await knex.transaction(async (trx) => {
+      await trx('inventories').where({ warehouse_id: id }).del();
+      await trx('warehouses').where({ id }).del();
+    });
+
+    return res.status(204).send(); 
+  } catch (error) {
+    
+    return res.status(500).send(); 
+  }
+};
+
 const getAllWarehouses = async (req, res) => {
   try {
     const warehouses = await knex('warehouses').select('*');
@@ -87,4 +109,5 @@ module.exports = {
     findWarehouse,
     editWarehouse,
     getAllWarehouses,
+    deleteWarehouse,
 };

@@ -1,3 +1,4 @@
+// server.js
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
@@ -19,4 +20,3 @@ app.listen(PORT, () => {
 app.get("/", (req, res) => {
   res.send("Welcome to the InStock server!");
 });
-//
