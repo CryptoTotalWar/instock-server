@@ -135,11 +135,25 @@ const updateInventoryItem = async (req, res) => {
   }
 };
 
-// Skeleton for deleting an inventory item
-const deleteInventoryItem = async (req, res) => {
-  // Placeholder for logic to delete a single inventory item by id
-  // To be implemented by teammate
-};
+  const deleteInventoryItem = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const inventory = await knex('inventories').where({ id }).first();
+      if (!inventory) {
+        return res.status(404).json({ message: "Inventory ID does not exist" });
+      }
+
+      await knex.transaction(async (trx) => {
+        await trx('inventories').where({ id }).del();
+      });
+
+      return res.status(204).json({message: 'successfully deleted'}); 
+    } catch (error) {
+      return res.status(500).send(); 
+    }
+  };
+
 
 module.exports = {
   addInventoryItem,
