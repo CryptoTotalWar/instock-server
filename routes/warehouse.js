@@ -1,15 +1,14 @@
 // warehouse.js
 const express = require("express");
-const warehouseControler = require('../controllers/warehouse-controller');
+const warehouseController = require("../controllers/warehouse-controller");
 
 const router = express.Router();
 
 // GET list of all warehouses
-router.get('/', warehouseControler.getAllWarehouses);
+router.get("/", warehouseController.getAllWarehouses);
 
 // GET single warehouse
-router.get('/:id', warehouseControler.findWarehouse);
-
+router.get("/:id", warehouseController.findWarehouse);
 
 // POST to add new warehouse
 router.post("/:id", (req, res) => {
@@ -17,9 +16,9 @@ router.post("/:id", (req, res) => {
 });
 
 // PUT to edit a single warehouse
-router.put("/:id", warehouseControler.editWarehouse)
+router.put("/:id", warehouseController.editWarehouse);
 
 // DELETE warehouse with id
-router.delete("/:id", warehouseControler.deleteWarehouse);
+router.delete("/:id", warehouseController.deleteWarehouse);
 
 module.exports = router;
