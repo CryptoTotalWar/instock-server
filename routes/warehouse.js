@@ -11,9 +11,7 @@ router.get("/", warehouseController.getAllWarehouses);
 router.get("/:id", warehouseController.findWarehouse);
 
 // POST to add new warehouse
-router.post("/:id", (req, res) => {
-  res.status(200).json({});
-});
+router.post("/", warehouseController.addNewWarehouse);
 
 // PUT to edit a single warehouse
 router.put("/:id", warehouseController.editWarehouse);
