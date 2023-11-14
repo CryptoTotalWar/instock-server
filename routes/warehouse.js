@@ -1,6 +1,7 @@
 // warehouse.js
 const express = require("express");
 const warehouseController = require("../controllers/warehouse-controller");
+const knex = require("knex")(require("../knexfile"));
 
 const router = express.Router();
 
@@ -18,5 +19,21 @@ router.put("/:id", warehouseController.editWarehouse);
 
 // DELETE warehouse with id
 router.delete("/:id", warehouseController.deleteWarehouse);
+
+// In warehouse.js
+router.get("/:id/inventories", async (req, res) => {
+  try {
+    console.log("Accessing inventories for warehouse with ID:", req.params.id);
+      const warehouseId = req.params.id;
+      console.log("Fetching inventory for warehouse ID:", warehouseId); // Log the ID
+      const inventoryItems = await knex("inventories")
+          .where({ warehouse_id: warehouseId });
+      console.log("Inventory items:", inventoryItems); // Log the retrieved items
+      res.json(inventoryItems);
+  } catch (error) {
+      res.status(500).json({ message: `Error retrieving inventory for warehouse ${req.params.id}: ${error.message}` });
+  }
+});
+
 
 module.exports = router;
