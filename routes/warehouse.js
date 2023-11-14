@@ -25,10 +25,10 @@ router.get("/:id/inventories", async (req, res) => {
   try {
     console.log("Accessing inventories for warehouse with ID:", req.params.id);
       const warehouseId = req.params.id;
-      console.log("Fetching inventory for warehouse ID:", warehouseId); // Log the ID
+      console.log("Fetching inventory for warehouse ID:", warehouseId); 
       const inventoryItems = await knex("inventories")
           .where({ warehouse_id: warehouseId });
-      console.log("Inventory items:", inventoryItems); // Log the retrieved items
+      console.log("Inventory items:", inventoryItems); 
       res.json(inventoryItems);
   } catch (error) {
       res.status(500).json({ message: `Error retrieving inventory for warehouse ${req.params.id}: ${error.message}` });
